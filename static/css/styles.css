@@ -1,0 +1,74 @@
+body {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #31333F; /* Ensuring text color contrasts well with background */
+    font-family: 'sans serif';
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.recommendations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.book {
+    margin: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 200px;
+}
+
+button {
+    background-color: #FF4B4B;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-select {
+    height: 45px;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 100%;
+}
+
+.custom-dropdown-container {
+    width: 100%; /* Set a fixed width for the dropdown container */
+    /*overflow-x: auto;  Add horizontal scrollbar */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.custom-navbar {
+    background: #1d3a58;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.float-left-child {
+    float: left;
+}
+
+/* CSS for card title */
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: scrollbar;
+}
+.top-books{
+    background:#d7eafc;
+}
+.nav-link{
+    color: white;
+}

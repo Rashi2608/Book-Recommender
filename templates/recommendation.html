@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book-Recommender-Recommendations</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Add Bootstrap CSS for enhanced styling -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .book img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .book h3 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar">
+        <a class="navbar-brand" href="{{ url_for('index') }}"><i class="fas fa-book"></i> Book Recommender</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#contactModal"><i class="fas fa-envelope"></i> Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Recommended Books</h2>
+        <div class="recommendations row">
+            {% for i in range(recommended_books|length) %}
+                <div class="book col-md-3 mb-4" data-toggle="modal" data-target="#bookModal"
+                     data-title="{{ recommended_books[i] }}"
+                     data-author="{{ authors[i] }}"
+                     data-year="{{ years[i] }}"
+                     data-isbn="{{ isbns[i] }}"
+                     data-publisher="{{ publishers[i] }}"
+                     data-poster="{{ poster_urls[i] }}">
+                    <h3>{{ recommended_books[i] }}</h3>
+                    <img src="{{ poster_urls[i] }}" alt="{{ recommended_books[i] }}" class="img-fluid" style="width:100%; height:auto; object-fit: cover;">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Book Details Modal -->
+    <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookModalLabel">Book Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalPoster" src="" alt="Book Poster" class="img-fluid mb-3" style="height:300px;">
+                    <h4 id="modalTitle"></h4>
+                    <p><strong>Author:</strong> <span id="modalAuthor"></span></p>
+                    <p><strong>Year:</strong> <span id="modalYear"></span></p>
+                    <p><strong>ISBN:</strong> <span id="modalISBN"></span></p>
+                    <p><strong>Publisher:</strong> <span id="modalPublisher"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Contact Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/rashi-sharma-650658205" target="_blank">https://www.linkedin.com/in/rashi-sharma-650658205</a></p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/Rashi2608" target="_blank">https://github.com/Rashi2608</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $('#bookModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var title = button.data('title');
+            var author = button.data('author');
+            var year = button.data('year');
+            var isbn = button.data('isbn');
+            var publisher = button.data('publisher');
+            var poster = button.data('poster');
+
+            var modal = $(this);
+<!--            modal.find('.modal-title').text(title);-->
+            modal.find('#modalTitle').text(title);
+            modal.find('#modalAuthor').text(author);
+            modal.find('#modalYear').text(year);
+            modal.find('#modalISBN').text(isbn);
+            modal.find('#modalPublisher').text(publisher);
+            modal.find('#modalPoster').attr('src', poster);
+        });
+    </script>
+</body>
+</html>
