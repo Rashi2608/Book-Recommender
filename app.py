@@ -13,6 +13,7 @@ def load_data():
         book_pivot = pickle.load(open('artifacts/book_pivot.pkl', 'rb'))
         return model, book_names, final_rating, book_pivot
     except Exception as e:
+        print(f"Error loading data: {e}")
         return None, None, None, None
 
 model, book_names, final_rating, book_pivot = load_data()
@@ -56,6 +57,10 @@ def recommend_book(book_name, model, book_pivot, final_rating):
     return recommended_books, poster_urls, authors, years, isbns, publishers
 
 def get_top_rated_books(final_rating):
+    if final_rating is None:
+        print("Final rating data is not loaded.")
+        return [], [], [], [], [], []
+    
     top_books = final_rating.nlargest(5, 'rating')
     top_books_titles = top_books['title'].values
     top_books_posters = top_books['image_url'].values
@@ -67,7 +72,9 @@ def get_top_rated_books(final_rating):
 
 @app.route('/')
 def index():
-    # return "hello"
+    if final_rating is None:
+        return "Error loading data. Please try again later."
+    
     top_books_titles, top_books_posters, top_books_authors, top_books_years, top_books_isbns, top_books_publishers = get_top_rated_books(final_rating)
     return render_template('index.html', book_names=book_names,
                            top_books_titles=top_books_titles,
@@ -97,3 +104,4 @@ def recommend():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
